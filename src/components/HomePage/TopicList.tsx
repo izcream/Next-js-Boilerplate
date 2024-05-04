@@ -1,6 +1,13 @@
+import 'dayjs/locale/th';
+
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 import Image from 'next/image';
 
 import { type PopularTopic } from '@/types/pantip-content';
+
+dayjs.extend(relativeTime);
+dayjs.locale('th');
 
 export function TopicList({ topic }: { topic: PopularTopic }) {
   return (
@@ -52,7 +59,7 @@ export function TopicList({ topic }: { topic: PopularTopic }) {
                 <a
                   href={`https://pantip.com/forum/${t.topic_id}`}
                   target="_blank"
-                  className="font-semibold leading-none tracking-tight hover:text-gray-700"
+                  className="mt-1 block break-words font-semibold leading-none tracking-tight hover:text-gray-700 md:mt-0"
                 >
                   {t.title}
                 </a>
@@ -66,7 +73,7 @@ export function TopicList({ topic }: { topic: PopularTopic }) {
                   </a>
                   <span>&middot;</span>
                   <span className="text-xs text-gray-400">
-                    {t.created_time.toString()}
+                    {dayjs(t.created_time).fromNow()}
                   </span>
                 </div>
 
@@ -76,7 +83,7 @@ export function TopicList({ topic }: { topic: PopularTopic }) {
                       target="_blank"
                       href={`https://pantip.com/tag/${tag.slug}`}
                       key={tag.slug}
-                      className="rounded-full bg-gray-200 px-3 text-xs font-medium hover:bg-gray-300"
+                      className="truncate rounded-full bg-gray-200 px-3 text-xs font-medium hover:bg-gray-300"
                     >
                       {tag.name}
                     </a>

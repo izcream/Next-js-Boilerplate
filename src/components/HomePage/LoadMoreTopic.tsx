@@ -19,7 +19,7 @@ export function LoadMoreTopic({ rankingTime }: { rankingTime: number }) {
     setLoading(true);
     // prevent rate limit
     await new Promise((r) => {
-      setTimeout(r, 2000);
+      setTimeout(r, 1500);
     });
     const res = await getPopularTopic(nextId, rankTime.current);
     setTopics(res.data);
