@@ -17,6 +17,20 @@ export default withSentryConfig(
       eslint: {
         dirs: ['.'],
       },
+      images: {
+        remotePatterns: [
+          {
+            protocol: 'https',
+            hostname: 'ptcdn.info',
+            port: '',
+          },
+          {
+            protocol: 'https',
+            hostname: 'f.ptcdn.info',
+            port: '',
+          },
+        ],
+      },
       poweredByHeader: false,
       reactStrictMode: true,
       experimental: {
@@ -39,7 +53,6 @@ export default withSentryConfig(
   {
     // For all available options, see:
     // https://github.com/getsentry/sentry-webpack-plugin#options
-
     // Suppresses source map uploading logs during build
     silent: true,
     // FIXME: Add your Sentry organization and project names
