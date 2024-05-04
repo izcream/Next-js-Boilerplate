@@ -1,10 +1,17 @@
 import '@/styles/global.css';
 
 import type { Metadata } from 'next';
+import { Noto_Sans_Thai, Outfit } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 
 import { AppConfig } from '@/utils/AppConfig';
+
+const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
+const noto = Noto_Sans_Thai({
+  subsets: ['thai'],
+  variable: '--font-noto-sans-thai',
+});
 
 export const metadata: Metadata = {
   icons: [
@@ -43,7 +50,7 @@ export default function RootLayout(props: {
 
   return (
     <html lang={props.params.locale}>
-      <body>
+      <body className={`${outfit.variable} ${noto.variable}`}>
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
