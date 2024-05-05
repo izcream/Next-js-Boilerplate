@@ -32,14 +32,17 @@ export default async function Index() {
     <>
       <RoomSelector rooms={rooms} />
       <div className="container mx-auto">
-        <div className="space-y-10 lg:space-y-20">
+        <div className="space-y-10">
           <HightLightTopic hightlights={hightlights} />
           <div className="grid grid-cols-1 gap-x-5 gap-y-10 lg:grid-cols-2">
             {topics.data?.map((topic) => (
               <TopicList key={topic.room_id} topic={topic} />
             ))}
-            <LoadMoreTopic rankingTime={topics.ranking_time} />
           </div>
+          <LoadMoreTopic
+            rankingTime={topics.ranking_time}
+            nextId={topics.next_id}
+          />
         </div>
       </div>
     </>
