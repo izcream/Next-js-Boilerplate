@@ -8,3 +8,6 @@
     @apply font-sans;
   }
 }
+.skeleton {
+  @apply bg-gray-300 animate-pulse;
+}

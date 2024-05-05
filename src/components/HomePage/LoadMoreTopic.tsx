@@ -3,48 +3,59 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { TopicList, TopicListSkeleton } from '@/components/HomePage/TopicList';
 import { useTopicStore } from '@/stores/topic.store';
 import { getPopularTopic } from '@/utils/PantipFetcher';
 
-import { TopicList, TopicListSkeleton } from './TopicList';
-
-export function LoadMoreTopic({ rankingTime }: { rankingTime: number }) {
-  const { nextId, setNextId, setTopics, topics } = useTopicStore();
-  const [hasNext, setHasNext] = useState(true);
-  const [loading, setLoading] = useState(false);
+// { rankingTime, nextId }: { rankingTime: number; nextId: number }
+export function LoadMoreTopic({
+  rankingTime,
+  nextId,
+}: {
+  rankingTime: number;
+  nextId: number;
+}) {
   const { ref, inView } = useInView();
-  const rankTime = useRef(rankingTime);
-  const loadMoreTopic = useCallback(async () => {
-    if (!hasNext || loading) return;
+  const { topics, setTopics } = useTopicStore();
+  const [loading, setLoading] = useState(false);
+  const [hasNext, setHasNext] = useState(true);
+  const nextIdRef = useRef(nextId);
+  const rankingTimeRef = useRef(rankingTime);
+  const loadMore = useCallback(async () => {
+    if (!hasNext || nextIdRef.current === null) return;
     setLoading(true);
-    // prevent rate limit
     await new Promise((r) => {
-      setTimeout(r, 1500);
+      setTimeout(r, 1000);
     });
-    const res = await getPopularTopic(nextId, rankTime.current);
-    setTopics(res.data);
-    setNextId(res.next_id);
+    const res = await getPopularTopic(
+      nextIdRef.current,
+      rankingTimeRef.current,
+    );
     setHasNext(res.has_next);
-    setLoading(false);
-  }, [hasNext, nextId, setNextId, setTopics, loading]);
-  useEffect(() => {
-    if (inView) {
-      loadMoreTopic();
+    nextIdRef.current = res.next_id;
+    rankingTimeRef.current = res.ranking_time;
+    if (res.data.length > 0) {
+      setTopics(res.data);
     }
-  }, [inView, loadMoreTopic]);
+    setLoading(false);
+  }, []);
+  useEffect(() => {
+    if (inView && !loading) {
+      loadMore();
+    }
+  }, [inView, loading]);
   return (
-    <>
-      {topics.map((t) => (
-        <TopicList key={t.room_id} topic={t} />
+    <div className="grid grid-cols-1 gap-x-5 gap-y-10 lg:grid-cols-2">
+      {topics.map((d) => (
+        <TopicList key={d.room_id} topic={d} />
       ))}
-      <div ref={ref} className="col-span-full">
-        {hasNext && (
-          <div className="grid grid-cols-1 gap-x-5 gap-y-10 lg:grid-cols-2">
-            <TopicListSkeleton />
-            <TopicListSkeleton />
-          </div>
-        )}
-      </div>
-    </>
+      {loading && (
+        <>
+          <TopicListSkeleton />
+          <TopicListSkeleton />
+        </>
+      )}
+      <div className="h-1 w-full" ref={ref} />
+    </div>
   );
 }
