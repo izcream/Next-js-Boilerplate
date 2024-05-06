@@ -8,14 +8,14 @@ import { type Room } from '@/types/pantip-content';
 export function RoomSelector({ rooms }: { rooms: Room[] }) {
   const [emblaRef] = useEmblaCarousel({ dragFree: true, axis: 'x' });
   return (
-    <div ref={emblaRef} className="relative my-5 overflow-hidden">
+    <div ref={emblaRef} className="relative overflow-hidden">
       <div className="grid grid-flow-col justify-start gap-3">
         {rooms?.map((room) => (
           <div
             key={room.id}
             className="group block min-w-14 cursor-pointer text-center md:min-w-16"
           >
-            <div className="inline-block size-10 rounded-full bg-gray-700 p-1 transition-colors group-hover:bg-pink-600">
+            <div className="inline-block size-10 rounded-full bg-gray-600 p-1 transition-colors group-hover:bg-pink-600">
               <Image
                 width={36}
                 height={36}

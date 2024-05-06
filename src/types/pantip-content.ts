@@ -58,3 +58,8 @@ export interface Tag {
   name: string;
   slug: string;
 }
+
+export type TopicWithRoom = Topic & {
+  room_name_en: string;
+  room_name_th: string;
+};

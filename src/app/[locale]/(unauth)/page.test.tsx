@@ -3,7 +3,7 @@ import { NextIntlClientProvider } from 'next-intl';
 
 import messages from '@/locales/en.json';
 
-import Index from './page';
+import Index from './(home)/page';
 
 describe('Index page', () => {
   describe('Render method', () => {

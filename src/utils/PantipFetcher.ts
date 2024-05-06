@@ -17,7 +17,11 @@ export async function getRoomList() {
   return rooms;
 }
 
-export async function getPopularTopic(nextId: number, rankingTime: number) {
+export async function getPopularTopic(
+  nextId: number,
+  rankingTime: number,
+  limit = 2,
+) {
   const res = await fetch(
     'https://pantip.com/api/forum-service/home/get_suggest_topic_popular',
     {
@@ -27,8 +31,8 @@ export async function getPopularTopic(nextId: number, rankingTime: number) {
         Ptauthorize: 'Basic dGVzdGVyOnRlc3Rlcg==',
       },
       body: JSON.stringify({
+        limit,
         type: 'room',
-        limit: 2,
         next_id: nextId,
         ranking_time: rankingTime,
       }),
