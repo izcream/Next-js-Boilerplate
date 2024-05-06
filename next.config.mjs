@@ -19,16 +19,10 @@ export default withSentryConfig(
       },
       images: {
         remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'ptcdn.info',
-            port: '',
-          },
-          {
-            protocol: 'https',
-            hostname: 'f.ptcdn.info',
-            port: '',
-          },
+          { protocol: 'https', hostname: 'ptcdn.info', port: '' },
+          { protocol: 'https', hostname: 'f.ptcdn.info', port: '' },
+          { protocol: 'http', hostname: 'ptcdn.info', port: '' },
+          { protocol: 'http', hostname: 'f.ptcdn.info', port: '' },
         ],
       },
       poweredByHeader: false,
